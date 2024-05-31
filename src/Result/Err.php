@@ -2,9 +2,17 @@
 
 namespace Cordyceps\Result;
 
-use Cordyceps\Traits\Value;
-
 class Err
 {
-  use Value;
+  private $value;
+
+  public function __construct($value)
+  {
+    $this->value = $value;
+  }
+
+  public function getValue()
+  {
+    return $this->value;
+  }
 }

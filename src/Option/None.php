@@ -13,4 +13,3 @@ class None
     return null;
   }
 }
-

@@ -2,25 +2,67 @@
 
 namespace Cordyceps\Option;
 
+/**
+ * @template T
+ */
 class Option
 {
+  /** @var Some<T>|None */
   private $wrapped;
 
+  /**
+   * @param Some<T>|None $value
+   */
   public function __construct($value)
   {
-    $this->wrapped = is_null($value) ? new None : new Some($value);
+    $this->wrapped = $value;
   }
 
-  public function map(callable $fn): static
+  public static function make($value): self
+  {
+    return is_null($value) ? static::makeNone() : static::makeSome($value);
+  }
+
+  public static function makeSome($value): self
+  {
+    return new static(new Some($value));
+  }
+
+  public static function makeNone(): self
+  {
+    return new static(new None);
+  }
+
+  /**
+   * @param callable(T): mixed $fn
+   */
+  public function map(callable $fn): self
   {
     if ($this->isSome()) {
-      return new static(call_user_func_array($fn, [$this->unwrap()]));
+      $newValue = call_user_func_array($fn, [$this->unwrap()]);
+      return static::make($newValue);
     }
 
     return $this;
   }
 
-  public function andThen(callable $fn): static
+  public function or(self $other): self
+  {
+    return $this->isSome() ? $this : $other;
+  }
+
+  /**
+   * @param callable(): self $fn
+   */
+  public function orElse(callable $fn): self
+  {
+    return $this->isSome() ? $this : call_user_func_array($fn, []);
+  }
+
+  /**
+   * @param callable(mixed): self $fn
+   */
+  public function andThen(callable $fn): self
   {
     if ($this->isSome()) {
       return call_user_func_array($fn, [$this->unwrap()]);
@@ -39,8 +81,13 @@ class Option
     return !$this->isNone();
   }
 
+  public function getWrapped()
+  {
+    return $this->wrapped;
+  }
+
   /**
-   * @return mixed|null
+   * @return T|null
    */
   public function unwrap()
   {
