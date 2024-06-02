@@ -5,7 +5,9 @@ declare(strict_types=1);
 use Cordyceps\Result\Result;
 use PHPUnit\Framework\TestCase;
 
-class ResultException extends Exception {}
+class ResultException extends Exception
+{
+}
 
 final class ResultTest extends TestCase
 {
@@ -53,7 +55,9 @@ final class ResultTest extends TestCase
     $this->assertEquals(2, $okRes->and($okRes2)->unwrap());
     $this->assertTrue($errRes->and($okRes)->isErr());
 
-    $okFun = function($x) { return Result::makeOk($x + 10); };
+    $okFun = function ($x) {
+      return Result::makeOk($x + 10);
+    };
     $this->assertTrue($okRes->andThen($okFun)->isOk());
     $this->assertEquals(11, $okRes->andThen($okFun)->unwrap());
 
@@ -72,7 +76,9 @@ final class ResultTest extends TestCase
   public function testTry()
   {
     $okRes = Result::try(fn ($x) => $x, [42]);
-    $errRes = Result::try(fn () => throw new Exception('test exception'));
+    $errRes = Result::try(function () {
+      throw new Exception('test exception');
+    });
 
     $this->assertEquals(42, $okRes->unwrap());
     $this->assertTrue($errRes->isErr());
