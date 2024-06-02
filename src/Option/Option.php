@@ -59,6 +59,15 @@ class Option
     return $this->isSome() ? $this : call_user_func_array($fn, []);
   }
 
+  public function and(Option $other)
+  {
+    if ($this->isSome()) {
+      return $other;
+    }
+
+    return $this;
+  }
+
   /**
    * @param callable(mixed): self $fn
    */

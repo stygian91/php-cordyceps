@@ -19,7 +19,7 @@ final class OptionTest extends TestCase
     $this->assertEquals(52, $res->unwrap());
   }
 
-  public function testMultiplMaps()
+  public function testMultipleMaps()
   {
     $opt = Option::make(12);
     $res = $opt->map(function ($x) {
@@ -56,6 +56,22 @@ final class OptionTest extends TestCase
 
     $this->assertTrue($res->isNone());
     $this->assertFalse($res->isSome());
+  }
+
+  public function testAnd()
+  {
+    $someOpt = Option::makeSome(1);
+    $someOpt2 = Option::makeSome(2);
+    $noneOpt = Option::makeNone();
+
+    $andRes = $someOpt->and($someOpt2);
+    $noneRes = $noneOpt->and($someOpt2);
+    $noneRes2 = $someOpt->and($noneOpt);
+
+    $this->assertTrue($andRes->isSome());
+    $this->assertEquals(2, $andRes->unwrap());
+    $this->assertTrue($noneRes->isNone());
+    $this->assertTrue($noneRes2->isNone());
   }
 
   public function testAndThen()

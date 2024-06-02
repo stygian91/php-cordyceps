@@ -21,7 +21,7 @@ class Result
     $this->wrapped = $value;
   }
 
-  public static function try(callable $fn, array $args): self
+  public static function try(callable $fn, array $args = []): self
   {
     try {
       $fnRes = call_user_func_array($fn, $args);
@@ -55,6 +55,15 @@ class Result
   {
     if ($this->isOk()) {
       return static::makeOk(call_user_func_array($fn, [$this->unwrap()]));
+    }
+
+    return $this;
+  }
+
+  public function and(Result $other): self
+  {
+    if ($this->isOk()) {
+      return $other;
     }
 
     return $this;
