@@ -1,12 +1,21 @@
 {
     "name": "stygian91/php-cordyceps",
     "type": "library",
+    "version": "0.1.0",
     "autoload": {
         "psr-4": {
             "Cordyceps\\": "src/"
         }
     },
+    "require": {
+        "php": "^7.4 || ^8.1"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9"
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit ./test"
+        ]
     }
 }
