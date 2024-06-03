@@ -86,18 +86,18 @@ try {
 
 // ------------
 // becomes this:
-function thisCouldGoWrong1() {
+function thisCouldGoWrong1($arg) {
     // ...
-    if (somethingIsWrong()) {
+    if (somethingIsWrong($arg)) {
         return Result::makeErr(new Exception('oops'));
     }
 
     return Result::makeOk('some value');
 }
 
-function thisCouldGoWrong2() {
+function thisCouldGoWrong2($arg) {
     // ...
-    if (somethingIsWrong()) {
+    if (somethingIsWrong($arg)) {
         return Result::makeErr(new Exception('oops 2'));
     }
 
