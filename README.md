@@ -52,7 +52,7 @@ function myFunc2($arg) {
 
 ## Result
 
-`Result` is a wrapper that makes it easier to treat errors as values. This is an alternative to try/catch, the main benefit to treating errors as values is that at the end you are reminded that the operation could fail when it comes the time to actually unwrap the value that could be your "green path" value or an error. Whereas it's very easy to forget to do a try/catch.
+`Result` is a wrapper that makes it easier to treat errors as values. This is an alternative to try/catch, the main benefit to treating errors as values is that at the end you are reminded that the operation could fail when the time comes to actually unwrap the value that could be your "green path" value or an error. Whereas it's very easy to forget to do a try/catch.
 
 Example:
 ```php
