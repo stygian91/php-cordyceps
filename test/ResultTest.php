@@ -105,6 +105,20 @@ final class ResultTest extends TestCase
     $this->assertEquals(1, $outside);
   }
 
+  public function testToOption()
+  {
+    $okRes = Result::makeOk(42);
+    $errRes = Result::makeErrException();
+
+    $okOpt = $okRes->toOption();
+    $errOpt = $errRes->toOption();
+
+    $this->assertTrue($okOpt->isSome());
+    $this->assertEquals(42, $okOpt->unwrap());
+
+    $this->assertTrue($errOpt->isNone());
+  }
+
   private static function makeErr()
   {
     return Result::makeErrException('test exception');

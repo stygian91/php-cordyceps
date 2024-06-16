@@ -2,6 +2,7 @@
 
 namespace Cordyceps\Result;
 
+use Cordyceps\Option\Option;
 use Exception;
 use Throwable;
 
@@ -137,5 +138,10 @@ class Result
   public function unwrapOrElse(callable $fnDefault)
   {
     return $this->isOk() ? $this->unwrap() : call_user_func_array($fnDefault, []);
+  }
+
+  public function toOption()
+  {
+    return $this->isOk() ? Option::make($this->unwrap()) : Option::makeNone();
   }
 }

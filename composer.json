@@ -1,7 +1,7 @@
 {
     "name": "stygian91/php-cordyceps",
     "type": "library",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "license": "MIT",
     "autoload": {
         "psr-4": {
