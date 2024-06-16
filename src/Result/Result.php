@@ -50,6 +50,25 @@ class Result
   }
 
   /**
+   * @param Result[] $results
+   * @returns Result<array>
+   */
+  public static function flipList($results)
+  {
+    $out = [];
+
+    foreach ($results as $result) {
+      if ($result->isErr()) {
+        return $result;
+      }
+
+      $out[] = $result->unwrap();
+    }
+
+    return Result::makeOk($out);
+  }
+
+  /**
    * @param callable(T): mixed
    */
   public function map(callable $fn): self

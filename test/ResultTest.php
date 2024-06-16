@@ -119,6 +119,21 @@ final class ResultTest extends TestCase
     $this->assertTrue($errOpt->isNone());
   }
 
+  public function testFlipList()
+  {
+    $okRes1 = Result::makeOk(42);
+    $okRes2 = Result::makeOk(69);
+    $errRes = Result::makeErrException();
+
+    $out1 = Result::flipList([$okRes1, $errRes]);
+    $out2 = Result::flipList([$okRes1, $okRes2]);
+
+    $this->assertTrue($out1->isErr());
+
+    $this->assertTrue($out2->isOk());
+    $this->assertEquals([42, 69], $out2->unwrap());
+  }
+
   private static function makeErr()
   {
     return Result::makeErrException('test exception');
