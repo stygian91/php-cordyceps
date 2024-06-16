@@ -146,7 +146,8 @@ final class OptionTest extends TestCase
     $this->assertEquals(1, $outside);
   }
 
-  public function testToResult() {
+  public function testToResult()
+  {
     $opt1 = Option::makeNone();
     $opt2 = Option::make(42);
 
@@ -160,5 +161,16 @@ final class OptionTest extends TestCase
 
     $this->assertTrue($res2->isOk());
     $this->assertEquals(42, $res2->unwrap());
+  }
+
+  public function testFlipList()
+  {
+    $opt1 = Option::makeNone();
+    $opt2 = Option::make(42);
+    $opt3 = Option::make(69);
+
+    $this->assertTrue(Option::flipList([$opt1, $opt2])->isNone());
+    $this->assertTrue(Option::flipList([$opt2, $opt3])->isSome());
+    $this->assertEquals([42, 69], Option::flipList([$opt2, $opt3])->unwrap());
   }
 }

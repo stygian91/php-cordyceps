@@ -37,6 +37,25 @@ class Option
   }
 
   /**
+   * @param Option[] $options
+   * @returns Option<array>
+   */
+  public static function flipList($options)
+  {
+    $out = [];
+
+    foreach ($options as $option) {
+      if ($option->isNone()) {
+        return $option;
+      }
+
+      $out[] = $option->unwrap();
+    }
+
+    return Option::make($out);
+  }
+
+  /**
    * @param callable(T): mixed $fn
    */
   public function map(callable $fn): self
