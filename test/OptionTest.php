@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Cordyceps\Option\MissingException;
 use Cordyceps\Option\Option;
 use PHPUnit\Framework\TestCase;
 
@@ -143,5 +144,21 @@ final class OptionTest extends TestCase
     $this->assertEquals(42, $res1);
     $this->assertEquals(69, $res2);
     $this->assertEquals(1, $outside);
+  }
+
+  public function testToResult() {
+    $opt1 = Option::makeNone();
+    $opt2 = Option::make(42);
+
+    $res1 = $opt1->toResult('example', 99);
+    $res2 = $opt2->toResult();
+
+    $this->assertTrue($res1->isErr());
+    $this->assertEquals(MissingException::class, get_class($res1->unwrap()));
+    $this->assertEquals('example', $res1->unwrap()->getMessage());
+    $this->assertEquals(99, $res1->unwrap()->getCode());
+
+    $this->assertTrue($res2->isOk());
+    $this->assertEquals(42, $res2->unwrap());
   }
 }

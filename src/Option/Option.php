@@ -2,6 +2,9 @@
 
 namespace Cordyceps\Option;
 
+use Cordyceps\Result\Result;
+use Throwable;
+
 /**
  * @template T
  */
@@ -111,5 +114,14 @@ class Option
   public function unwrapOrElse(callable $fnDefault)
   {
     return $this->isSome() ? $this->wrapped->getValue() : call_user_func_array($fnDefault, []);
+  }
+
+  /**
+   * @param Throwable|null $previous
+   * @return Result
+   */
+  public function toResult(string $message = '', int $code = 0, $previous = null)
+  {
+    return $this->isSome() ? Result::makeOk($this->unwrap()) : Result::makeErr(new MissingException($message, $code, $previous));
   }
 }
